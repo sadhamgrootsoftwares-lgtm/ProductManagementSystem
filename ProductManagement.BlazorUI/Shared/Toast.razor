@@ -1,0 +1,42 @@
+﻿@inject ToastService ToastService
+
+@if (visible)
+{
+    <div class="position-fixed top-0 end-0 p-3"
+         style="z-index: 2000;">
+        <div class="alert @(success ? "alert-success" : "alert-danger") shadow fade show">
+            @message
+        </div>
+    </div>
+}
+
+@code {
+    private string? message;
+    private bool success;
+    private bool visible;
+
+    protected override void OnInitialized()
+    {
+        ToastService.OnShow += ShowToast;
+    }
+
+    private async void ShowToast(string msg, bool isSuccess)
+    {
+        message = msg;
+        success = isSuccess;
+        visible = true;
+
+        StateHasChanged();
+
+        await Task.Delay(3000);
+
+        visible = false;
+
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        ToastService.OnShow -= ShowToast;
+    }
+}

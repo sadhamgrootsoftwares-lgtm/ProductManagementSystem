@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="ProductManagement.API/ProductManagement.API.csproj" />
+  <Project Path="ProductManagement.Application/ProductManagement.Application.csproj" />
+  <Project Path="ProductManagement.BlazorUI/ProductManagement.BlazorUI.csproj" Id="864fb968-a773-44b5-aff2-b26eb0f62794" />
+  <Project Path="ProductManagement.Domain/ProductManagement.Domain.csproj" />
+  <Project Path="ProductManagement.Infrastructure/ProductManagement.Infrastructure.csproj" />
+</Solution>

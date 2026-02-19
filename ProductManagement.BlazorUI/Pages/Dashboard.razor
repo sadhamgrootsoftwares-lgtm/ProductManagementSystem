@@ -1,0 +1,190 @@
+﻿@page "/"
+@* @attribute [Authorize] *@
+@inject ProductService ProductService
+@inject IJSRuntime JS
+
+@using ProductManagement.Application.Features.Product.DTOs
+
+<h3 class="mb-4">Dashboard</h3>
+
+@if (isLoading)
+{
+    <div class="text-center">
+        <div class="spinner-border text-primary"></div>
+    </div>
+}
+else if (products == null)
+{
+    <p>No data available.</p>
+}
+else
+{
+    <!-- ================= SUMMARY CARDS ================= -->
+    <div class="row mb-4">
+
+        <div class="col-md-3">
+            <div class="card text-white bg-primary shadow">
+                <div class="card-body">
+                    <h5>Total Products</h5>
+                    <h3>@products.Count</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-success shadow">
+                <div class="card-body">
+                    <h5>Active Products</h5>
+                    <h3>@products.Count(p => p.IsActive)</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-danger shadow">
+                <div class="card-body">
+                    <h5>Inactive Products</h5>
+                    <h3>@products.Count(p => !p.IsActive)</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card text-white bg-warning shadow">
+                <div class="card-body">
+                    <h5>Low Stock</h5>
+                    <h3>@products.Count(p => p.StockQuantity < 10)</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ================= CHART ================= -->
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <h5 class="mb-3 text-center fw-bold text-decoration-underline">
+                        Products by Category
+                    </h5>
+
+                    <canvas id="categoryChart" style="height:250px;"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= APPLICATION FEATURES ================= -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h5 class="mb-3">Application Functionalities</h5>
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">✔ JWT Authentication</li>
+                        <li class="list-group-item">✔ Refresh Token System</li>
+                        <li class="list-group-item">✔ Role-Based Authorization</li>
+                        <li class="list-group-item">✔ User Registration Form</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">✔ Product CRUD</li>
+                        <li class="list-group-item">✔ Category Management</li>
+                        <li class="list-group-item">✔ Server-Side Pagination</li>
+                        <li class="list-group-item">✔ Advanced Filtering</li>
+                    </ul>
+                </div>
+
+                <div class="col-md-4">
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item">✔ Sorting & Search</li>
+                        <li class="list-group-item">✔ Confirmation Modal</li>
+                        <li class="list-group-item">✔ Toast Notifications</li>
+                        <li class="list-group-item">✔ Loading Spinner UX</li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= TECH STACK ================= -->
+    <div class="card shadow mb-4">
+        <div class="card-body">
+            <h5 class="mb-3">Technology Stack</h5>
+
+            <div class="row text-center">
+
+                <div class="col-md-3">
+                    <div class="border rounded p-3 shadow-sm">
+                        <strong>Frontend</strong>
+                        <p class="mb-0">Blazor WebAssembly</p>
+                        <p class="mb-0">Bootstrap 5</p>
+                        <p class="mb-0">jQuery AJAX</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="border rounded p-3 shadow-sm">
+                        <strong>Backend</strong>
+                        <p class="mb-0">.NET Web API</p>
+                        <p class="mb-0">Clean Architecture</p>
+                        <p class="mb-0">RESTful Services</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="border rounded p-3 shadow-sm">
+                        <strong>Security</strong>
+                        <p class="mb-0">JWT Tokens</p>
+                        <p class="mb-0">Refresh Tokens</p>
+                        <p class="mb-0">Role-Based Access</p>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="border rounded p-3 shadow-sm">
+                        <strong>Database</strong>
+                        <p class="mb-0">SQL Server</p>
+                        <p class="mb-0">Entity Framework Core</p>
+                        <p class="mb-0">Code First</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    private List<ProductResponseDto>? products;
+    private bool isLoading = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        products = await ProductService.GetAllAsync();
+        isLoading = false;
+    }
+
+    private List<ProductCategorySummaryDto>? summary;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            summary = await ProductService.GetCategorySummaryAsync();
+
+            if (summary != null)
+            {
+                await JS.InvokeVoidAsync("renderCategoryChart",
+                    summary.Select(x => x.CategoryName),
+                    summary.Select(x => x.ProductCount));
+            }
+        }
+    }
+}

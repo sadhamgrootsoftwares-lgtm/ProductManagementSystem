@@ -1,0 +1,101 @@
+﻿@page "/create-product"
+@attribute [Authorize(Roles = "Admin,Manager")]
+
+@using ProductManagement.Application.Features.Product.DTOs
+@using ProductManagement.Application.Features.Category.DTOs
+@inject ProductService ProductService
+@inject CategoryService CategoryService
+@inject NavigationManager Navigation
+
+<h3 class="mb-4">Create Product</h3>
+
+@if (categories == null)
+{
+    <p>Loading categories...</p>
+}
+else
+{
+    <EditForm Model="model" OnValidSubmit="HandleSubmit">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
+        <div class="mb-3">
+            <label>Name</label>
+            <InputText class="form-control"
+                       @bind-Value="model.Name" />
+        </div>
+
+        <div class="mb-3">
+            <label>Description</label>
+            <InputTextArea class="form-control"
+                           @bind-Value="model.Description" />
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label>Price</label>
+                <InputNumber class="form-control"
+                             @bind-Value="model.Price" />
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label>Stock Quantity</label>
+                <InputNumber class="form-control"
+                             @bind-Value="model.StockQuantity" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label>Category</label>
+            <InputSelect class="form-select"
+                         @bind-Value="model.CategoryId">
+                <option value="">Select Category</option>
+
+                @foreach (var category in categories)
+                {
+                    <option value="@category.Id">
+                        @category.Name
+                    </option>
+                }
+            </InputSelect>
+        </div>
+
+        <div class="form-check form-switch mb-3">
+            <InputCheckbox class="form-check-input"
+                           @bind-Value="model.IsActive" />
+            <label class="form-check-label">
+                Is Active
+            </label>
+        </div>
+
+        <button class="btn btn-success">
+            Save Product
+        </button>
+
+        <button type="button"
+                class="btn btn-secondary ms-2"
+                @onclick='() => Navigation.NavigateTo("/products")'>
+            Cancel
+        </button>
+    </EditForm>
+}
+
+@code {
+    private CreateProductDto model = new();
+    private List<CategoryResponseDto>? categories;
+
+    protected override async Task OnInitializedAsync()
+    {
+        categories = await CategoryService.GetAllAsync();
+    }
+
+    private async Task HandleSubmit()
+    {
+        var result = await ProductService.CreateAsync(model);
+
+        if (result != null)
+        {
+            Navigation.NavigateTo("/products");
+        }
+    }
+}
