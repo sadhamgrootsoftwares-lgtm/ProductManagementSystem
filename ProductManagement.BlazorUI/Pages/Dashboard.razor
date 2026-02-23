@@ -15,7 +15,22 @@
 }
 else if (products == null)
 {
-    <p>No data available.</p>
+
+    <div class="text-center mt-5 text-light">
+
+        <p class="fw-bold text-danger">
+            No data available.
+        </p>
+
+        <p class="text-secondary">
+            Please
+            <a href="/login" class="text-primary fw-semibold">Login</a>
+            or
+            <a href="/register" class="text-primary fw-semibold">Register</a>
+            to continue.
+        </p>
+
+    </div>
 }
 else
 {
@@ -188,3 +203,4 @@ else
         }
     }
 }
+

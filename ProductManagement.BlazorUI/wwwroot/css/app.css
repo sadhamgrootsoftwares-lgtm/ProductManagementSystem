@@ -141,14 +141,6 @@ code {
 .card:hover {
         transform: translateY(-4px);
 }
-/*.topbar {
-    background-color: #f8f9fa;
-    color: #212529;
-    border-bottom: 1px solid #dee2e6;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}*/
 
 .topbar .nav-link {
     color: white !important;
@@ -175,5 +167,6 @@ code {
     z-index: 1000;
 }*/
 
-
-
+.darkMode {
+    background-color: aqua;
+}

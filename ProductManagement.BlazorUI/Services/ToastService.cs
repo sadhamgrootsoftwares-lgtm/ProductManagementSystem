@@ -1,9 +1,14 @@
-﻿public class ToastService
-{
-    public event Action<string, bool>? OnShow;
+﻿using ProductManagement.BlazorUI.Services;
 
-    public void Show(string message, bool success)
+namespace ProductManagement.BlazorUI.Services { 
+
+    public class ToastService
     {
-        OnShow?.Invoke(message, success);
+        public event Action<string, bool>? OnShow;
+
+        public void Show(string message, bool success)
+        {
+            OnShow?.Invoke(message, success);
+        }
     }
 }

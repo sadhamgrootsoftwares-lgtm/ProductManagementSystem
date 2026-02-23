@@ -67,8 +67,9 @@ public class AuthController : ControllerBase
             await _roleManager.CreateAsync(
                 new IdentityRole(model.Role));
         }
+        var roleToAssign = string.IsNullOrEmpty(model.Role) ? "User" : model.Role;
 
-        await _userManager.AddToRoleAsync(user, model.Role);
+        await _userManager.AddToRoleAsync(user, roleToAssign);
 
         return Ok("User registered successfully.");
     }
@@ -209,4 +210,3 @@ public class AuthController : ControllerBase
     }
 
 }
-

@@ -22,8 +22,6 @@ builder.Services.AddEndpointsApiExplorer();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
-//builder.Services.AddValidatorsFromAssemblyContaining<SomeValidator>();
-
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 
@@ -111,3 +109,4 @@ using (var scope = app.Services.CreateScope())
 app.MapControllers();
 
 app.Run();
+
