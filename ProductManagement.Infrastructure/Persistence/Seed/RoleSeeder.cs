@@ -26,7 +26,7 @@ public static class RoleSeeder
             }
         }
 
-        // Create Default Admin
+        // Default Admin
         var adminEmail = "Admin@gmail.com";
 
         var adminUser = await userManager

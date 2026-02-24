@@ -19,7 +19,6 @@ public class CategoryController : ControllerBase
         _context = context;
     }
 
-    // GET: api/category
     [HttpGet]
     public async Task<IActionResult> Get()
     {
@@ -35,7 +34,6 @@ public class CategoryController : ControllerBase
         return Ok(categories);
     }
 
-    // POST: api/category
     [HttpPost]
     [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(CreateCategoryDto dto)

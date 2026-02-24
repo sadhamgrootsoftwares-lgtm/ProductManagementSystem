@@ -19,10 +19,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
-
-//builder.Services.AddValidatorsFromAssemblyContaining<SomeValidator>();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IProductService, ProductService>();
@@ -78,7 +75,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("BlazorPolicy", policy =>
     {
-        policy.WithOrigins("https://localhost:7165", "http://localhost:5012") // Actual Blazor ports
+        policy.WithOrigins("https://localhost:7165", "http://localhost:5012") // Blazor ports
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -111,3 +108,4 @@ using (var scope = app.Services.CreateScope())
 app.MapControllers();
 
 app.Run();
+

@@ -81,6 +81,4 @@ public class ProductController : ControllerBase
         var result = await _service.GetProductsByCategoryAsync();
         return Ok(result);
     }
-
-
 }

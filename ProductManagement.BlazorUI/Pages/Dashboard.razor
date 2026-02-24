@@ -1,5 +1,5 @@
 ﻿@page "/"
-@* @attribute [Authorize] *@
+@attribute [Authorize]
 @inject ProductService ProductService
 @inject IJSRuntime JS
 
@@ -15,11 +15,26 @@
 }
 else if (products == null)
 {
-    <p>No data available.</p>
+
+    <div class="text-center mt-5 text-light">
+
+        <p class="fw-bold text-danger">
+            No data available.
+        </p>
+
+        <p class="text-secondary">
+            Please
+            <a href="/login" class="text-primary fw-semibold">Login</a>
+            or
+            <a href="/register" class="text-primary fw-semibold">Register</a>
+            to continue.
+        </p>
+
+    </div>
 }
 else
 {
-    <!-- ================= SUMMARY CARDS ================= -->
+    <!-- SUMMARY CARDS -->
     <div class="row mb-4">
 
         <div class="col-md-3">
@@ -60,7 +75,7 @@ else
 
     </div>
 
-    <!-- ================= CHART ================= -->
+    <!-- CHART -->
     <div class="row justify-content-center">
         <div class="col-md-5">
             <div class="card shadow mb-4">
@@ -75,7 +90,7 @@ else
         </div>
     </div>
 
-    <!-- ================= APPLICATION FEATURES ================= -->
+    <!-- APPLICATION FEATURES -->
     <div class="card shadow mb-4">
         <div class="card-body">
             <h5 class="mb-3">Application Functionalities</h5>
@@ -113,7 +128,7 @@ else
         </div>
     </div>
 
-    <!-- ================= TECH STACK ================= -->
+    <!-- TECH STACK -->
     <div class="card shadow mb-4">
         <div class="card-body">
             <h5 class="mb-3">Technology Stack</h5>
@@ -167,7 +182,17 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        products = await ProductService.GetAllAsync();
+        // products = await ProductService.GetAllAsync();
+        // isLoading = false;
+        try
+        {
+            products = await ProductService.GetAllAsync();
+        }
+        catch
+        {
+            products = null; 
+        }
+
         isLoading = false;
     }
 
@@ -188,3 +213,4 @@ else
         }
     }
 }
+

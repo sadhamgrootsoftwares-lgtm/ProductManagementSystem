@@ -2,29 +2,6 @@
 @inject IJSRuntime JS;
 @using ProductManagement.BlazorUI.Shared
 
-
-  @*   <button class="btn btn-sm btn-outline-light"
-            @onclick="ToggleTheme">
-        🌙
-
-    </button> *@
-@* <div class="page">
-
-    <div class="sidebar bg-dark text-white vh-100 shadow">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div> *@
-
 <div class="topbar d-flex justify-content-between align-items-center px-4 py-2 shadow-sm">
 
     <h5 class="m-0 fw-bold text-Black">
@@ -37,11 +14,12 @@
         <NavLink href="/products" class="nav-link">Products</NavLink>
         <NavLink href="/register" class="nav-link">Register User</NavLink>
 
-        <button class="btn btn-sm btn-outline-secondary"
+        @* <button class="btn btn-sm btn-outline-secondary">*@
+        @*   <button class="btn btn-outline-light ms-3" *@
+        <button class="btn btn-sm btn-outline-light"
                 @onclick="ToggleTheme">
-            <i class="bi @(darkMode ? "bi-sun-fill" : "bi-moon-fill")"></i>
+            🌙
         </button>
-
     </div>
 
 </div>

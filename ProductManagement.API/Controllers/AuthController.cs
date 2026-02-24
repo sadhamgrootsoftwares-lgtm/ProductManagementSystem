@@ -35,7 +35,7 @@ public class AuthController : ControllerBase
         _context = context;
     }
 
-    // ---------------- REGISTER ----------------
+    // REGISTER
     [HttpPost("register")]
     public async Task<IActionResult> Register(RegisterRequestDto model)
     {
@@ -67,13 +67,14 @@ public class AuthController : ControllerBase
             await _roleManager.CreateAsync(
                 new IdentityRole(model.Role));
         }
+        var roleToAssign = string.IsNullOrEmpty(model.Role) ? "User" : model.Role;
 
-        await _userManager.AddToRoleAsync(user, model.Role);
+        await _userManager.AddToRoleAsync(user, roleToAssign);
 
         return Ok("User registered successfully.");
     }
 
-    // ---------------- LOGIN ----------------
+    // LOGIN
     [HttpPost("login")]
     public async Task<IActionResult> Login(LoginRequestDto model)
     {
@@ -112,7 +113,7 @@ public class AuthController : ControllerBase
         });
     }
 
-    // ---------------- REFRESH TOKEN ----------------
+    // REFRESH TOKEN
     [HttpPost("refresh")]
     public async Task<IActionResult> Refresh(
         RefreshTokenRequestDto model)
@@ -181,7 +182,7 @@ public class AuthController : ControllerBase
                 ValidateAudience = true,
                 ValidateIssuer = true,
                 ValidateIssuerSigningKey = true,
-                ValidateLifetime = false, //  important
+                ValidateLifetime = false,       //  important
 
                 ValidIssuer = jwtSettings.Issuer,
                 ValidAudience = jwtSettings.Audience,
@@ -209,4 +210,3 @@ public class AuthController : ControllerBase
     }
 
 }
-
