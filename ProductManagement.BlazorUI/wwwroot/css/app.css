@@ -130,10 +130,20 @@ code {
     color: white !important;
 }
 
-.dark-mode {
+body.dark-mode {
     background-color: #121212;
-    color: white;
+    color: #ffffff;
 }
+
+    body.dark-mode .card {
+        background-color: #1e1e1e;
+        color: white;
+    }
+
+    body.dark-mode .navbar {
+        background-color: #1c1c1c !important;
+    }
+
 .card {
     transition: 0.3s ease;
 }
@@ -166,7 +176,3 @@ code {
     top: 0;
     z-index: 1000;
 }*/
-
-.darkMode {
-    background-color: aqua;
-}

@@ -19,7 +19,6 @@ builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
 
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -76,7 +75,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("BlazorPolicy", policy =>
     {
-        policy.WithOrigins("https://localhost:7165", "http://localhost:5012") // Actual Blazor ports
+        policy.WithOrigins("https://localhost:7165", "http://localhost:5012") // Blazor ports
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
